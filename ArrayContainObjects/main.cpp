@@ -2,61 +2,65 @@
 
 using namespace std;
 
-struct Point {
-    int x, y;
-};
-
 class Person {
 public:
     string name;
     int age;
-    Person() = default;
 
-    Person(const string &_name, int _age);
+    //Person() = default;
+    Person();
+
+    Person(const string &_name, int _age);  //constructor
+
+    void init(const string &_name, int _age);
+
+    void say();
 };
+Person::Person() {
+    cout << this << " default constructor" << endl;
+}
 Person::Person(const string &_name, int _age) {
+    cout << this << " custom constructor" << endl;
     name = _name;
     age = _age;
 }
 
+void Person::init(const string &_name, int _age) {
+    name = _name;
+    age = _age;
+}
+
+void Person::say() {
+    cout << name << " is " << age << endl;
+}
+
 int main() {
-    int* p = new int{10};
-    Point *triangle = new Point[4];
 
-    triangle[0] = Point{1, 2};
-    triangle[1] = Point{10, 20};
-    triangle[2] = Point{-10, -5};
-    triangle[3] = Point{-10, -5};
+    Person cuong = Person("Trinh Minh Cuong", 40);
+    cuong.say();
 
-    int intArr[] = {1, 2, 3, 4, 5};
-    double doubleArr[] = {1, 2, 3, 4, 5};
-    cout << "sizeof(p) " << sizeof(p) << endl;
-    cout << "sizeof(Point) " << sizeof(Point) << endl;
-    cout << "sizeof(triangle) " << sizeof(triangle) << endl;
-    cout << "sizeof(intArr) " << sizeof(intArr) << endl;
-    cout << "sizeof(doubleArr) " << sizeof(doubleArr) << endl;
+    Person *dung = new Person{"Doan Xuan Dung", 41};
+    dung->say();
 
-    /*
-    sizeof(p) 8
-    sizeof(Point) 8
-    sizeof(triangle) 8
-    sizeof(intArr) 20
-     */
+    Person two_friends[] = {cuong, *dung};
 
-    //clean up memory
-    delete p;
-    delete[] triangle;
+    for (auto &item : two_friends) {
+        item.say();
+    }
+    int numPeople = 3;
+    Person *people = new Person[numPeople];
+
+    //Reassign array element --> memory leaking
+    /*people[0] = Person("Lan", 18);
+    people[1] = Person("Linh", 19);
+    people[2] = Person("Huong", 20);*/
+
+    people[0].init("Lan", 18);
+    people[1].init("Linh", 19);
+    people[2].init("Huong", 20);
 
 
-    Person* john = new Person {"Cuong", 10};
-    Person two_people[2];
-    two_people[0] = *john;
-    two_people[1] = Person {"Jame", 12};
-
-    Person* three_people = new Person[3];
-    three_people[0] = *john;
-    three_people[1] = Person {"Rock", 10};
-    three_people[2] = Person {"Aten", 10};
-    delete[] three_people;
+    delete dung;
+    delete[] people;
     return 0;
 }

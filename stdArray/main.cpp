@@ -1,5 +1,7 @@
 #include <iostream>
 #include <array>
+#include "Person.h"
+
 using namespace std;
 //std::array is a container that encapsulates fixed size arrays.
 
@@ -29,12 +31,12 @@ int main() {
 
     //array<int, > array = { 9, 7, 5, 3, 1 }; // illegal, array size must be provided
 
-    array<int, 3> a2 = {1, 2, 3};  // never required after =
+    array<int, 3> a2 = {1, 2, 3};
     array<string, 2> a3 = {string("a"), "b" };
     array<bool, 3> boolArr = {true, false, 1==2};
 
     cout << a1[0] << endl;  //a1.front() access first element
-    cout << a1.back(); //access
+    cout << a1.back(); //access last element
 
     // container operations are supported
     sort(a1.begin(), a1.end());
@@ -67,5 +69,21 @@ int main() {
     }
 
     printArrayElements<bool, boolArr.size()>(boolArr);
+
+    array<Person, 3> people = {
+            Person("Linh", 10),
+            Person("Long", 11),
+            Person("Dang", 13)
+    };
+
+    cout << "size = " << people.size() << ", maxsize = " << people.max_size() << endl;
+
+    Person* data = people.data();  //access underlying array
+
+    for (int i = 0; i < 3; i++) {
+        cout << data[i].name << " : " << data[i].age << endl;
+        //cout << (data + i)->name << " : " << (data + i)->age << endl;
+    }
+
     return 0;
 }
